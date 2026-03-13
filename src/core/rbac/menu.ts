@@ -25,6 +25,13 @@ export const ALL_MENUS: MenuItem[] = [
     href: '#/users',
     perm: Perm.USER_LIST,
   },
+  {
+    key: 'warehouses',
+    label: '仓库管理',
+    icon: '🏭',
+    href: '#/warehouses',
+    perm: Perm.WAREHOUSE_LIST,
+  },
 ]
 
 /** 根据当前用户权限过滤菜单 */

@@ -21,6 +21,10 @@ export function canAny(...perms: string[]): boolean {
 export const Perm = {
   DASHBOARD: 'dashboard:view',
   USER_LIST: 'user:list',
+  WAREHOUSE_LIST: 'warehouse:list',
+  WAREHOUSE_CREATE: 'warehouse:create',
+  WAREHOUSE_EDIT: 'warehouse:edit',
+  WAREHOUSE_DELETE: 'warehouse:delete',
 } as const
 
 export type PermKey = (typeof Perm)[keyof typeof Perm]

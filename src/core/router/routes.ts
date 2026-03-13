@@ -32,6 +32,11 @@ export const routes: RouteConfig[] = [
     page: () => import('@/pages/users/list.page'),
   },
   {
+    path: '/warehouses',
+    meta: { requiresAuth: true, layout: 'app', title: '仓库管理', perm: 'warehouse:list' },
+    page: () => import('@/pages/warehouses/list.page'),
+  },
+  {
     path: '/403',
     meta: { requiresAuth: false, layout: 'blank', title: '无权限' },
     page: () => import('@/pages/error/403.page'),
