@@ -17,8 +17,18 @@ type Listener = (state: SessionState) => void
 
 /** 根据后端 role 推导前端权限列表 */
 function permsFromRole(role: string): string[] {
-  if (role === 'ADMIN') return ['dashboard:view', 'user:list']
-  return ['dashboard:view']
+  switch (role) {
+    case 'ADMIN':
+      return ['dashboard:view', 'user:list', 'warehouse:list', 'warehouse:create', 'warehouse:edit', 'warehouse:delete']
+    case 'WAREHOUSE_MANAGER':
+      return ['dashboard:view', 'warehouse:list', 'warehouse:create', 'warehouse:edit', 'warehouse:delete']
+    case 'OPERATOR':
+      return ['dashboard:view', 'warehouse:list']
+    case 'BUSINESS':
+      return ['dashboard:view', 'warehouse:list']
+    default:
+      return ['dashboard:view']
+  }
 }
 
 const SESSION_KEY = 'session_user'
