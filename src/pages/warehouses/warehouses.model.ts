@@ -10,6 +10,7 @@ export interface WarehouseVO {
   phone: string
   status: string
   capacity: number
+  available: boolean
   createdAt: string
   updatedAt: string
 }
