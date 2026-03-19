@@ -192,8 +192,8 @@ src/
 - [x] 处理搜索、筛选、分页
 
 ### 3.3 仓库列表页 (`/warehouses`)
-- [ ] 创建 `src/templates/pages/warehouses/list.html`
-- [ ] 创建 `src/scripts/pages/warehouses/list.ts`
+- [x] 创建 `src/templates/pages/warehouses/list.html`
+- [x] 创建 `src/scripts/pages/warehouses/list.ts`
 
 ### 3.4 仪表盘页 (`/dashboard`)
 - [ ] 创建 `src/templates/pages/dashboard.html`

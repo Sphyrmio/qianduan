@@ -1,0 +1,106 @@
+<div x-data="warehouseListComponent()" x-init="init()" class="warehouses-page">
+  <div class="page-header">
+    <h2 class="page-title">🏭 仓库管理</h2>
+    <div class="page-actions">
+      <button class="btn btn-ghost btn-sm" @click="refresh()">🔄 刷新</button>
+    </div>
+  </div>
+
+  <div class="card search-box" style="margin-bottom:1rem">
+    <div class="search-form">
+      <input
+        type="text"
+        x-model="filters.code"
+        @keyup.enter="search()"
+        class="form-input"
+        placeholder="仓库编码/名称"
+        style="width:200px"
+      >
+      <select x-model="filters.type" class="form-input" style="width:120px">
+        <option value="">全部类型</option>
+        <option value="RAW_MATERIAL">原料仓</option>
+        <option value="FINISHED_GOODS">成品仓</option>
+        <option value="TRANSFER">中转仓</option>
+      </select>
+      <select x-model="filters.status" class="form-input" style="width:100px">
+        <option value="">全部状态</option>
+        <option value="ENABLED">启用</option>
+        <option value="DISABLED">停用</option>
+      </select>
+      <button class="btn btn-primary btn-sm" @click="search()">🔍 搜索</button>
+      <button class="btn btn-ghost btn-sm" @click="reset()">重置</button>
+    </div>
+  </div>
+
+  <div id="table-container">
+    <!-- 错误提示 -->
+    <template x-if="error">
+      <div class="card state-box">
+        <p style="color:var(--clr-danger)" x-text="error"></p>
+      </div>
+    </template>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th style="width:60px">ID</th>
+            <th style="width:100px">仓库编码</th>
+            <th>仓库名称</th>
+            <th style="width:100px">类型</th>
+            <th style="width:150px">地址</th>
+            <th style="width:80px">负责人</th>
+            <th style="width:100px">电话</th>
+            <th style="width:70px">状态</th>
+          </tr>
+        </thead>
+        <tbody>
+          <template x-if="loading">
+            <tr>
+              <td colspan="8" class="table-loading">加载中…</td>
+            </tr>
+          </template>
+
+          <template x-if="!loading && !error && data.length === 0">
+            <tr>
+              <td colspan="8" class="table-empty">暂无仓库数据</td>
+            </tr>
+          </template>
+
+          <template x-if="!loading && !error && data.length > 0">
+            <template x-for="(row, idx) in data" :key="idx">
+              <tr>
+                <td x-text="row.id"></td>
+                <td x-text="row.code"></td>
+                <td x-text="row.name"></td>
+                <td><span class="badge badge-blue" x-text="getTypeLabel(row.type)"></span></td>
+                <td x-text="row.address"></td>
+                <td x-text="row.manager"></td>
+                <td x-text="row.phone"></td>
+                <td>
+                  <span class="badge" :class="getStatusClass(row.status)" x-text="getStatusLabel(row.status)"></span>
+                </td>
+              </tr>
+            </template>
+          </template>
+        </tbody>
+      </table>
+
+      <div class="pagination">
+        <span x-text="'共 ' + total + ' 条，第 ' + page + '/' + totalPages + ' 页'"></span>
+        <div class="pagination-btns">
+          <button
+            class="btn btn-ghost btn-sm"
+            @click="goToPage(page - 1)"
+            :disabled="page <= 1"
+          >上一页</button>
+          <button
+            class="btn btn-ghost btn-sm"
+            @click="goToPage(page + 1)"
+            :disabled="page >= totalPages"
+          >下一页</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
