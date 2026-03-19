@@ -1,0 +1,61 @@
+<div x-data="dataTableComponent()" class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <template x-for="col in columns" :key="col.key">
+          <th 
+            :class="{ sortable: col.sortable }" 
+            :style="col.width ? 'width:' + col.width : ''"
+            @click="col.sortable && handleSort(col.key)"
+          >
+            <span x-text="col.label"></span>
+            <span x-show="col.sortable" x-text="getSortIcon(col.key)"></span>
+          </th>
+        </template>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- 加载中 -->
+      <template x-if="loading">
+        <tr>
+          <td :colspan="columns.length" class="table-loading">加载中…</td>
+        </tr>
+      </template>
+      
+      <!-- 空数据 -->
+      <template x-if="!loading && data.length === 0">
+        <tr>
+          <td :colspan="columns.length" class="table-empty" x-text="empty"></td>
+        </tr>
+      </template>
+      
+      <!-- 数据行 -->
+      <template x-if="!loading && data.length > 0">
+        <template x-for="(row, idx) in data" :key="idx">
+          <tr>
+            <template x-for="col in columns" :key="col.key">
+              <td x-html="renderCell(row, col)"></td>
+            </template>
+          </tr>
+        </template>
+      </template>
+    </tbody>
+  </table>
+  
+  <!-- 分页 -->
+  <div class="pagination">
+    <span x-text="'共 ' + total + ' 条，第 ' + page + '/' + totalPages + ' 页'"></span>
+    <div class="pagination-btns">
+      <button 
+        class="btn btn-ghost btn-sm" 
+        @click="goToPage(page - 1)" 
+        :disabled="page <= 1"
+      >上一页</button>
+      <button 
+        class="btn btn-ghost btn-sm" 
+        @click="goToPage(page + 1)" 
+        :disabled="page >= totalPages"
+      >下一页</button>
+    </div>
+  </div>
+</div>

@@ -60,11 +60,11 @@ src/
 
 ## 📦 第二阶段：核心组件重构
 
-### 2.1 DataTable 组件
+### 2.1 DataTable 组件 ✅
 **当前:** `src/core/ui/components/DataTable.ts` (HTML 在 TS 字符串中)
 
 **重构后:**
-- [ ] 创建 `src/templates/components/DataTable.html`
+- [x] 创建 `src/templates/components/DataTable.html`
   ```html
   <div x-data="dataTable($props)" class="table-wrap">
     <table>
@@ -100,7 +100,7 @@ src/
   </div>
   ```
 
-- [ ] 创建 `src/scripts/components/DataTable.ts`
+- [x] 创建 `src/scripts/components/DataTable.ts`
   ```typescript
   export function dataTableComponent() {
     return {
@@ -121,12 +121,12 @@ src/
   }
   ```
 
-### 2.2 ConfirmDialog 组件
+### 2.2 ConfirmDialog 组件 ⏸️
 - [ ] 创建 `src/templates/components/ConfirmDialog.html`
 - [ ] 创建 `src/scripts/components/ConfirmDialog.ts`
 - [ ] 用 Alpine `x-show` 和 `x-transition` 处理显示/隐藏动画
 
-### 2.3 AppShell 布局
+### 2.3 AppShell 布局 ⏸️
 - [ ] 创建 `src/templates/layouts/app.html`
 - [ ] 集成侧边栏菜单（从 `src/core/rbac/menu.ts` 获取）
 - [ ] 用 Alpine 管理展开/折叠状态
