@@ -1,0 +1,37 @@
+<div x-data="appShellComponent()" x-init="init()" class="shell">
+  <!-- 侧边栏 -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">工单管理系统</div>
+    
+    <nav class="sidebar-nav" id="sidebar-nav">
+      <template x-for="menu in menus" :key="menu.href">
+        <a 
+          class="sidebar-link" 
+          :data-href="menu.href" 
+          :href="menu.href"
+          @click.prevent="navigateTo(menu.href)"
+        >
+          <span x-text="menu.icon"></span>
+          <span x-text="menu.label"></span>
+        </a>
+      </template>
+    </nav>
+    
+    <div class="sidebar-footer">
+      <span x-text="user?.displayName || user?.username || ''"></span>
+      <button @click="handleLogout()" class="link-btn link-btn-danger">退出</button>
+    </div>
+  </aside>
+
+  <!-- 主内容区 -->
+  <div class="main">
+    <header class="topbar">
+      <span id="page-title" class="topbar-title" x-text="pageTitle"></span>
+      <span class="topbar-user" x-text="user?.username || ''"></span>
+    </header>
+    <main id="page-content" class="page-content"></main>
+  </div>
+  
+  <!-- Toast 容器 -->
+  <div id="toast-container"></div>
+</div>

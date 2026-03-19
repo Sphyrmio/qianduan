@@ -126,10 +126,10 @@ src/
 - [x] 创建 `src/scripts/components/ConfirmDialog.ts`
 - [x] 用 Alpine `x-show` 和 `x-transition` 处理显示/隐藏动画
 
-### 2.3 AppShell 布局 ⏸️
-- [ ] 创建 `src/templates/layouts/app.html`
-- [ ] 集成侧边栏菜单（从 `src/core/rbac/menu.ts` 获取）
-- [ ] 用 Alpine 管理展开/折叠状态
+### 2.3 AppShell 布局 ✅
+- [x] 创建 `src/templates/layouts/app.html`
+- [x] 集成侧边栏菜单（从 `src/core/rbac/menu.ts` 获取）
+- [x] 用 Alpine 管理展开/折叠状态
 
 ---
 
