@@ -1,0 +1,48 @@
+<div x-data="loginPageComponent()" class="login-container">
+  <div class="login-header">
+    <h1 class="login-title">工单管理系统</h1>
+    <p class="login-sub">请登录您的账号</p>
+  </div>
+
+  <form @submit.prevent="handleSubmit" class="login-form" novalidate>
+    <div class="form-group">
+      <label class="form-label" for="username">用户名</label>
+      <sl-input 
+        id="username" 
+        name="username" 
+        placeholder="请输入用户名" 
+        autocomplete="username" 
+        clearable
+        x-model="username"
+        :disabled="submitting"
+      ></sl-input>
+      <p id="username-err" class="form-error" x-show="errors.username" x-text="errors.username" style="display:none"></p>
+    </div>
+    
+    <div class="form-group">
+      <label class="form-label" for="password">密码</label>
+      <sl-input 
+        id="password" 
+        name="password" 
+        type="password" 
+        placeholder="请输入密码" 
+        autocomplete="current-password" 
+        password-toggle
+        x-model="password"
+        :disabled="submitting"
+      ></sl-input>
+      <p id="password-err" class="form-error" x-show="errors.password" x-text="errors.password" style="display:none"></p>
+    </div>
+
+    <p id="login-err" class="form-error" x-show="errors.login" x-text="errors.login" style="display:none;text-align:center"></p>
+
+    <sl-button 
+      id="submit-btn" 
+      type="submit" 
+      variant="primary" 
+      style="width:100%;margin-top:8px"
+      :loading="submitting"
+      :disabled="submitting"
+    >登录</sl-button>
+  </form>
+</div>

@@ -139,7 +139,7 @@ src/
 **当前:** `src/pages/login/login.page.ts`
 
 **重构后:**
-- [ ] 创建 `src/templates/pages/login.html`
+- [x] 创建 `src/templates/pages/login.html`
   ```html
   <div x-data="loginPage()" class="login-container">
     <div class="login-header">
@@ -167,7 +167,7 @@ src/
   </div>
   ```
 
-- [ ] 创建 `src/scripts/pages/login.ts`
+- [x] 创建 `src/scripts/pages/login.ts`
   ```typescript
   export function loginPageComponent() {
     return {
@@ -183,7 +183,7 @@ src/
   }
   ```
 
-- [ ] 修改 `src/pages/login/login.page.ts` 为加载器（只负责加载模板和初始化 Alpine）
+- [x] 修改 `src/pages/login/login.page.ts` 为加载器（只负责加载模板和初始化 Alpine）
 
 ### 3.2 用户列表页 (`/users`)
 - [ ] 创建 `src/templates/pages/users/list.html`

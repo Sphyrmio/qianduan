@@ -23,7 +23,7 @@ function templateLoaderPlugin() {
       })
     },
     // 构建模式：复制 templates 到 dist
-    buildEnd() {
+    closeBundle() {
       const srcTemplates = path.join(process.cwd(), 'src', 'templates')
       const distTemplates = path.join(process.cwd(), 'dist', 'templates')
       if (fs.existsSync(srcTemplates)) {
