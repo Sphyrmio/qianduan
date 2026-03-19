@@ -1,0 +1,24 @@
+<!-- 全局确认对话框组件 -->
+<!-- 使用方式：在 app.html 中引入，通过 x-show 控制显示 -->
+
+<sl-dialog 
+  x-show="confirmDialog.visible" 
+  @sl-request-close="confirmDialog.visible = false"
+  @sl-after-hide="confirmDialog.onHide()"
+  :label="confirmDialog.title"
+>
+  <p class="text-sm text-text m-0 mb-4" x-text="confirmDialog.message"></p>
+  
+  <div slot="footer" class="flex gap-3 justify-end">
+    <sl-button 
+      @click="confirmDialog.cancel()" 
+      variant="default"
+      x-text="confirmDialog.cancelLabel"
+    ></sl-button>
+    <sl-button 
+      @click="confirmDialog.confirm()" 
+      :variant="confirmDialog.danger ? 'danger' : 'primary'"
+      x-text="confirmDialog.confirmLabel"
+    ></sl-button>
+  </div>
+</sl-dialog>

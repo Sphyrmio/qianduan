@@ -3,3 +3,4 @@
  */
 
 export { dataTableComponent } from './DataTable'
+export { confirmDialogComponent, confirm, getConfirmDialog } from './ConfirmDialog'

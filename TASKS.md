@@ -121,10 +121,10 @@ src/
   }
   ```
 
-### 2.2 ConfirmDialog 组件 ⏸️
-- [ ] 创建 `src/templates/components/ConfirmDialog.html`
-- [ ] 创建 `src/scripts/components/ConfirmDialog.ts`
-- [ ] 用 Alpine `x-show` 和 `x-transition` 处理显示/隐藏动画
+### 2.2 ConfirmDialog 组件 ✅
+- [x] 创建 `src/templates/components/ConfirmDialog.html`
+- [x] 创建 `src/scripts/components/ConfirmDialog.ts`
+- [x] 用 Alpine `x-show` 和 `x-transition` 处理显示/隐藏动画
 
 ### 2.3 AppShell 布局 ⏸️
 - [ ] 创建 `src/templates/layouts/app.html`
