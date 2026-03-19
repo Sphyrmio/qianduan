@@ -186,10 +186,10 @@ src/
 - [x] 修改 `src/pages/login/login.page.ts` 为加载器（只负责加载模板和初始化 Alpine）
 
 ### 3.2 用户列表页 (`/users`)
-- [ ] 创建 `src/templates/pages/users/list.html`
-- [ ] 创建 `src/scripts/pages/users/list.ts`
-- [ ] 集成 DataTable 组件
-- [ ] 处理搜索、筛选、分页
+- [x] 创建 `src/templates/pages/users/list.html`
+- [x] 创建 `src/scripts/pages/users/list.ts`
+- [x] 集成 DataTable 组件
+- [x] 处理搜索、筛选、分页
 
 ### 3.3 仓库列表页 (`/warehouses`)
 - [ ] 创建 `src/templates/pages/warehouses/list.html`
