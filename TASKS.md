@@ -200,8 +200,8 @@ src/
 - [x] 创建 `src/scripts/pages/dashboard.ts`
 
 ### 3.5 错误页 (404/403)
-- [ ] 创建 `src/templates/pages/error/404.html`
-- [ ] 创建 `src/templates/pages/error/403.html`
+- [x] 创建 `src/templates/pages/error/404.html`
+- [x] 创建 `src/templates/pages/error/403.html`
 
 ---
 

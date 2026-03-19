@@ -1,10 +1,5 @@
+import { loadAndRender } from '@/core/template'
+
 export function mount(container: HTMLElement): void {
-  container.innerHTML = `
-    <div class="text-center py-20">
-      <div class="text-6xl mb-4">🚫</div>
-      <h1 class="text-2xl font-semibold text-text mb-2">403 - 无权限</h1>
-      <p class="text-text-muted mb-6">您没有权限访问此页面</p>
-      <a href="#/" class="btn-primary inline-block">返回首页</a>
-    </div>
-  `
+  loadAndRender(container, 'pages/error/403.html')
 }
