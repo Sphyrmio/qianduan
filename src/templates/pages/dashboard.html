@@ -1,0 +1,26 @@
+<div x-data="dashboardComponent()" x-init="init()" class="dashboard-page">
+  <h2 class="page-title" style="margin-bottom:1.5rem">欢迎回来，<span x-text="displayName"></span></h2>
+
+  <div class="stat-grid">
+    <!-- 用户管理卡片 - 需要 user:list 权限 -->
+    <template x-if="can('user:list')">
+      <div class="card stat-card stat-card-clickable" @click="navigate('/users')">
+        <span class="stat-icon">👥</span>
+        <p class="stat-label">用户管理</p>
+        <p class="stat-value">查看所有用户</p>
+      </div>
+    </template>
+
+    <div class="card stat-card">
+      <span class="stat-icon">👤</span>
+      <p class="stat-label">当前用户</p>
+      <p class="stat-value" x-text="username"></p>
+    </div>
+
+    <div class="card stat-card">
+      <span class="stat-icon">🔑</span>
+      <p class="stat-label">角色</p>
+      <p class="stat-value" x-text="role"></p>
+    </div>
+  </div>
+</div>

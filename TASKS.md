@@ -196,8 +196,8 @@ src/
 - [x] 创建 `src/scripts/pages/warehouses/list.ts`
 
 ### 3.4 仪表盘页 (`/dashboard`)
-- [ ] 创建 `src/templates/pages/dashboard.html`
-- [ ] 创建 `src/scripts/pages/dashboard.ts`
+- [x] 创建 `src/templates/pages/dashboard.html`
+- [x] 创建 `src/scripts/pages/dashboard.ts`
 
 ### 3.5 错误页 (404/403)
 - [ ] 创建 `src/templates/pages/error/404.html`
