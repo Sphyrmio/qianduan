@@ -1,0 +1,19 @@
+<div class="shell">
+  <aside class="sidebar">
+    <div class="sidebar-logo">工单管理系统</div>
+    <nav class="sidebar-nav" id="sidebar-nav">{{menuItems}}</nav>
+    <div class="sidebar-footer">
+      <span>{{displayName}}</span>
+      <button id="logout-btn" class="link-btn link-btn-danger">退出</button>
+    </div>
+  </aside>
+
+  <div class="main">
+    <header class="topbar">
+      <span id="page-title" class="topbar-title"></span>
+      <span class="topbar-user">{{username}}</span>
+    </header>
+    <main id="page-content" class="page-content"></main>
+  </div>
+</div>
+<div id="toast-container"></div>

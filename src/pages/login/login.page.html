@@ -1,0 +1,23 @@
+<div class="login-page">
+  <div class="login-header">
+    <h1 class="login-title">工单管理系统</h1>
+    <p class="login-sub">请登录您的账号</p>
+  </div>
+
+  <form id="login-form" class="login-form" novalidate>
+    <div class="form-group">
+      <label class="form-label" for="username">用户名</label>
+      <sl-input id="username" name="username" placeholder="请输入用户名" autocomplete="username" clearable></sl-input>
+      <p id="username-err" class="form-error login-page__field-error"></p>
+    </div>
+    <div class="form-group">
+      <label class="form-label" for="password">密码</label>
+      <sl-input id="password" name="password" type="password" placeholder="请输入密码" autocomplete="current-password" password-toggle></sl-input>
+      <p id="password-err" class="form-error login-page__field-error"></p>
+    </div>
+
+    <p id="login-err" class="form-error login-page__form-error"></p>
+
+    <sl-button id="submit-btn" type="submit" variant="primary" class="login-page__submit">登录</sl-button>
+  </form>
+</div>

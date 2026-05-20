@@ -2,6 +2,7 @@ import '@shoelace-style/shoelace/dist/components/input/input.js'
 import '@shoelace-style/shoelace/dist/components/button/button.js'
 import { loadAndRender, Alpine } from '@/core/template'
 import { loginPageComponent } from '@/scripts/pages/login'
+import './login.page.css'
 
 /**
  * 注册 Alpine 组件

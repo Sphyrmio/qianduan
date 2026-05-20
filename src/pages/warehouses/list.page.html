@@ -1,0 +1,30 @@
+<div class="warehouses-page">
+  <div class="page-header">
+    <h2 class="page-title">🏭 仓库管理</h2>
+    <div class="page-actions">
+      <button id="create-btn" class="btn btn-primary btn-sm">➕ 新增仓库</button>
+      <button id="refresh-btn" class="btn btn-ghost btn-sm">🔄 刷新</button>
+    </div>
+  </div>
+
+  <div class="card search-box warehouses-page__search-box">
+    <div class="search-form">
+      <input type="text" id="search-code" class="form-input warehouses-page__search-input" placeholder="仓库编码/名称">
+      <select id="search-type" class="form-input warehouses-page__search-type">
+        <option value="">全部类型</option>
+        <option value="RAW_MATERIAL">原料仓</option>
+        <option value="FINISHED_GOODS">成品仓</option>
+        <option value="TRANSFER">中转仓</option>
+      </select>
+      <select id="search-status" class="form-input warehouses-page__search-status">
+        <option value="">全部状态</option>
+        <option value="ENABLED">启用</option>
+        <option value="DISABLED">停用</option>
+      </select>
+      <button id="search-btn" class="btn btn-primary btn-sm">🔍 搜索</button>
+      <button id="reset-btn" class="btn btn-ghost btn-sm">重置</button>
+    </div>
+  </div>
+
+  <div id="table-container"></div>
+</div>

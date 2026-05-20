@@ -1,5 +1,6 @@
 import { loadAndRender, Alpine } from '@/core/template'
 import { dashboardComponent } from '@/scripts/pages/dashboard'
+import './dashboard.page.css'
 
 /**
  * 注册 Alpine 组件

@@ -6,23 +6,22 @@
     </div>
   </div>
 
-  <div class="card search-box" style="margin-bottom:1rem">
+  <div class="card search-box warehouses-page__search-box">
     <div class="search-form">
       <input
         type="text"
         x-model="filters.code"
         @keyup.enter="search()"
-        class="form-input"
+        class="form-input warehouses-page__search-input"
         placeholder="仓库编码/名称"
-        style="width:200px"
       >
-      <select x-model="filters.type" class="form-input" style="width:120px">
+      <select x-model="filters.type" class="form-input warehouses-page__search-type">
         <option value="">全部类型</option>
         <option value="RAW_MATERIAL">原料仓</option>
         <option value="FINISHED_GOODS">成品仓</option>
         <option value="TRANSFER">中转仓</option>
       </select>
-      <select x-model="filters.status" class="form-input" style="width:100px">
+      <select x-model="filters.status" class="form-input warehouses-page__search-status">
         <option value="">全部状态</option>
         <option value="ENABLED">启用</option>
         <option value="DISABLED">停用</option>
@@ -36,7 +35,7 @@
     <!-- 错误提示 -->
     <template x-if="error">
       <div class="card state-box">
-        <p style="color:var(--clr-danger)" x-text="error"></p>
+        <p class="warehouses-page__error" x-text="error"></p>
       </div>
     </template>
 

@@ -1,6 +1,8 @@
 import '@shoelace-style/shoelace/dist/components/dialog/dialog.js'
 import '@shoelace-style/shoelace/dist/components/button/button.js'
 import type SlDialog from '@shoelace-style/shoelace/dist/components/dialog/dialog.js'
+import { renderTemplate } from '@/core/ui/template'
+import confirmDialogTemplate from './ConfirmDialog.html?raw'
 
 export interface ConfirmOptions {
   title?: string
@@ -28,13 +30,12 @@ export function confirm(opts: ConfirmOptions): Promise<boolean> {
 
     const confirmVariant = danger ? 'danger' : 'primary'
 
-    dialog.innerHTML = `
-      <p class="text-sm text-text m-0 mb-4">${message}</p>
-      <div slot="footer" class="flex gap-3 justify-end">
-        <sl-button id="cancel-btn" variant="default">${cancelLabel}</sl-button>
-        <sl-button id="confirm-btn" variant="${confirmVariant}">${confirmLabel}</sl-button>
-      </div>
-    `
+    dialog.innerHTML = renderTemplate(confirmDialogTemplate, {
+      message,
+      cancelLabel,
+      confirmLabel,
+      confirmVariant,
+    })
 
     document.body.appendChild(dialog)
     dialog.show()
