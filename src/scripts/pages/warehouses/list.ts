@@ -4,7 +4,7 @@
 
 import { warehousesApi } from '@/pages/warehouses/warehouses.api'
 import { TYPE_LABELS, STATUS_LABELS, type WarehouseVO } from '@/pages/warehouses/warehouses.model'
-import { confirm } from '@/scripts/components'
+import { confirm } from '@/core/ui/components/ConfirmDialog'
 
 const PAGE_SIZE = 10
 

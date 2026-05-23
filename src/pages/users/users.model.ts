@@ -20,6 +20,8 @@ export const ROLE_LABELS: Record<string, string> = {
   BUSINESS: '采购/销售/财务',
 }
 
+export const ROLE_OPTIONS = Object.keys(ROLE_LABELS)
+
 export const STATUS_LABELS: Record<number, string> = {
   1: '正常',
   0: '禁用',
@@ -31,4 +33,32 @@ export interface PageResponse<T> {
   pageSize: number
   total: number
   records: T[]
+}
+
+export interface UsersListQuery {
+  current: number
+  pageSize: number
+  username?: string
+  role?: string
+  /** 空字符串表示不过滤 */
+  status?: number | ''
+}
+
+export interface UserCreatePayload {
+  username: string
+  password: string
+  displayName?: string
+  role: string
+  email?: string
+  phone?: string
+}
+
+export interface UserUpdatePayload {
+  displayName: string
+  role: string
+  email?: string
+  phone?: string
+  status?: number
+  /** 不传或空则不修改密码 */
+  password?: string
 }

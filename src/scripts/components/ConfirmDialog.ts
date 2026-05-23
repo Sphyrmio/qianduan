@@ -1,7 +1,8 @@
 /**
- * ConfirmDialog Alpine 组件
- * 提供全局确认对话框功能
+ * @deprecated 请使用 `@/core/ui/components/ConfirmDialog`（会创建真实的 sl-dialog）。
+ * 本模块的 Alpine 实例未挂载到 DOM，confirm() 不会显示对话框。
  */
+import { confirm as confirmWithDialog } from '@/core/ui/components/ConfirmDialog'
 
 export interface ConfirmDialogState {
   visible: boolean
@@ -100,6 +101,5 @@ export function confirm(options: {
   cancelLabel?: string
   danger?: boolean
 }): Promise<boolean> {
-  const dialog = getConfirmDialog()
-  return dialog.show(options)
+  return confirmWithDialog(options)
 }
