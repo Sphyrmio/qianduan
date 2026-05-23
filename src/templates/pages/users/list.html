@@ -1,3 +1,10 @@
+<!--
+  用户管理列表页模板（教学用）
+  - x-data 名称必须和 list.page.ts 里 Alpine.data('userListComponent', ...) 一致
+  - 创建/编辑表单用 x-show，不要用 template x-if 包多个并列 div（会丢密码框）
+  - 字段顺序建议与 Swagger CreateUserRequest / UpdateUserRequest 对照
+  文档：docs/用户管理前端CRUD全流程.md
+-->
 <div x-data="userListComponent()" x-init="init()" class="users-page">
   <div class="page-header">
     <h2 class="page-title">用户管理</h2>
@@ -134,7 +141,7 @@
         <button type="button" class="dialog-close" @click="closeDialog()">✕</button>
       </div>
       <div class="dialog-body" style="display: flex; flex-direction: column; gap: 14px">
-        <!-- 创建：POST /users — CreateUserRequest -->
+        <!-- 创建：POST /users — 字段对齐 Swagger CreateUserRequest（username/password/role 必填） -->
         <div x-show="dialogMode === 'create'" style="display: flex; flex-direction: column; gap: 14px">
           <div class="form-group">
             <label class="form-label">用户名 <span style="color: var(--color-danger)">*</span></label>

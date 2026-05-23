@@ -1,7 +1,19 @@
 /**
- * 用户列表页 Alpine 组件
+ * 用户列表页 — Alpine 组件（教学用）
+ *
+ * 【本文件干什么】
+ * 管页面「状态」和「用户操作」：什么时候加载列表、怎么翻页、弹窗表单、点保存调哪个 API。
+ *
+ * 【不负责】拼 URL、发 fetch（那是 users.api.ts）；不负责 HTML 结构（那是 list.html）。
+ *
+ * 【教学顺序】
+ * 1. 先做 loadData + init（对接 GET /users）
+ * 2. 再做 openCreate + submitForm 创建分支（POST /users）
+ * 3. openEdit + submitForm 编辑分支（GET 详情 + PUT）
+ * 4. handleDisable（DELETE + confirm 确认框）
+ *
+ * 【配套文档】docs/用户管理前端CRUD全流程.md
  */
-
 import { usersApi } from '@/pages/users/users.api'
 import {
   ROLE_LABELS,
@@ -9,12 +21,14 @@ import {
   STATUS_LABELS,
   type UserVO,
 } from '@/pages/users/users.model'
+/** 必须用能弹出 sl-dialog 的 confirm，见文档「禁用」一节 */
 import { confirm } from '@/core/ui/components/ConfirmDialog'
 
 const PAGE_SIZE = 10
 
 type DialogMode = 'create' | 'edit' | null
 
+/** 弹窗表单字段（创建 + 编辑共用一套 state） */
 interface UserForm {
   username: string
   password: string
@@ -39,20 +53,23 @@ function emptyForm(): UserForm {
 
 export function userListComponent() {
   return {
+    // ---------- 列表数据（GET /users）----------
     data: [] as UserVO[],
     loading: false,
     total: 0,
     page: 1,
     pageSize: PAGE_SIZE,
     error: '',
-    roleOptions: ROLE_OPTIONS,
 
+    // ---------- 搜索条件（对应 GET /users 的 query）----------
+    roleOptions: ROLE_OPTIONS,
     filters: {
       username: '',
       role: '',
       status: '' as number | '',
     },
 
+    // ---------- 弹窗（POST / PUT）----------
     dialogMode: null as DialogMode,
     editingId: null as number | null,
     form: emptyForm(),
@@ -75,6 +92,10 @@ export function userListComponent() {
       return STATUS_LABELS[status] ?? String(status)
     },
 
+    /**
+     * 【接口一】加载分页列表 — 调用 usersApi.list
+     * 成功：把 records 赋给 this.data，total 用于分页文案
+     */
     async loadData(page: number = 1) {
       this.page = page
       this.loading = true
@@ -125,6 +146,7 @@ export function userListComponent() {
       }
     },
 
+    /** 打开创建弹窗 — 后续 submitForm 走 POST /users */
     openCreate() {
       this.dialogMode = 'create'
       this.editingId = null
@@ -132,6 +154,10 @@ export function userListComponent() {
       this.formError = ''
     },
 
+    /**
+     * 【接口二】编辑前先拉详情 — GET /users/{id}
+     * 成功后再打开弹窗，避免列表行数据不完整
+     */
     async openEdit(row: UserVO) {
       this.formError = ''
       this.submitting = true
@@ -166,6 +192,7 @@ export function userListComponent() {
       this.formError = ''
     },
 
+    /** 提交前校验（与后端 @NotBlank、@Size 规则大致一致） */
     validateForm(): boolean {
       if (this.dialogMode === 'create') {
         if (!this.form.username.trim()) {
@@ -199,6 +226,9 @@ export function userListComponent() {
       return true
     },
 
+    /**
+     * 保存按钮 — 【接口三 POST】或【接口四 PUT】
+     */
     async submitForm() {
       if (!this.validateForm()) return
 
@@ -242,19 +272,17 @@ export function userListComponent() {
       }
     },
 
-    async confirmDisable(row: UserVO): Promise<boolean> {
-      return confirm({
+    /** 【接口五】禁用 — DELETE /users/{id}，需用户确认 */
+    async handleDisable(row: UserVO) {
+      if (row.status === 0) return
+
+      const ok = await confirm({
         title: '确认禁用',
         message: `确定要禁用用户「${row.displayName || row.username}」吗？禁用后该账号将无法登录。`,
         confirmLabel: '禁用',
         cancelLabel: '取消',
         danger: true,
       })
-    },
-
-    async handleDisable(row: UserVO) {
-      if (row.status === 0) return
-      const ok = await this.confirmDisable(row)
       if (!ok) return
 
       const res = await usersApi.remove(row.id)
@@ -265,6 +293,7 @@ export function userListComponent() {
       }
     },
 
+    /** 路由进入页面时 Alpine 自动调用 */
     init() {
       this.loadData(1)
     },

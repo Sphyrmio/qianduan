@@ -96,6 +96,17 @@ router.on('/home', () => {
 router.resolve();
 ```
 
+## 教学文档（用户管理前端对接）
+
+配合后端 `backend-server` Swagger 五接口，零基础分步实现：
+
+| 文档 | 读者 |
+|------|------|
+| [用户管理前端CRUD全流程](docs/用户管理前端CRUD全流程.md) | 学生：**第 0 章** 技术栈/架构/TS/Alpine，再按接口逐步做 |
+| [用户管理前端上课教案](docs/用户管理前端上课教案.md) | 讲师：基础讲授话术 + 课时安排 + CRUD 演示 |
+
+后端对应：`backend-server/docs/用户管理CRUD全流程.md`
+
 ## 注意事项
 
 - Shoelace 组件需要单独导入才能使用
