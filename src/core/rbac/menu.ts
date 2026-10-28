@@ -46,6 +46,13 @@ export const ALL_MENUS: MenuItem[] = [
     href: '#/inbound',
     perm: Perm.INBOUND,
   },
+  {
+    key: 'outbound',
+    label: '出库',
+    icon: '📤',
+    href: '#/outbound',
+    perm: Perm.OUTBOUND,
+  },
 ]
 
 /** 根据当前用户权限过滤菜单 */

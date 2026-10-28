@@ -47,6 +47,11 @@ export const routes: RouteConfig[] = [
     page: () => import('@/pages/inbound/list.page'),
   },
   {
+    path: '/outbound',
+    meta: { requiresAuth: true, layout: 'app', title: '出库', perm: 'outbound:use' },
+    page: () => import('@/pages/outbound/list.page'),
+  },
+  {
     path: '/403',
     meta: { requiresAuth: false, layout: 'blank', title: '无权限' },
     page: () => import('@/pages/error/403.page'),

@@ -1,0 +1,111 @@
+<div x-data="outboundPageComponent()" x-init="init()" class="biz-page">
+  <div class="page-header">
+    <h2 class="page-title">📤 出库</h2>
+    <div class="page-actions">
+      <button class="btn btn-primary btn-sm" @click="createOrder()" :disabled="busy">新建出库单</button>
+      <button class="btn btn-danger btn-sm" @click="completeTogether()" :disabled="busy || selected.length < 2"
+        x-text="'同时完成勾选的单（' + selected.length + '）'"></button>
+      <button class="btn btn-ghost btn-sm" @click="clearHistory()">清空记录</button>
+    </div>
+  </div>
+
+  <div class="biz-grid">
+    <!-- 左：这个浏览器建过的单。草稿单可以勾选，一起完成 -->
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th style="width:44px">勾选</th><th style="width:60px">主键</th><th>单号</th><th style="width:110px">状态</th><th style="width:50px">行数</th></tr>
+        </thead>
+        <tbody>
+          <template x-if="orders.length === 0">
+            <tr><td colspan="5" class="table-empty">点右上角「新建出库单」</td></tr>
+          </template>
+          <template x-for="o in orders" :key="o.id">
+            <tr :class="o.id === currentId ? 'biz-row-active' : ''" @click="currentId = o.id" style="cursor:pointer">
+              <td><input type="checkbox" :value="o.id" x-model.number="selected" :disabled="o.status !== 'DRAFT'" @click.stop></td>
+              <td x-text="o.id"></td>
+              <td x-text="o.orderNo"></td>
+              <td><span class="badge" :class="o.status === 'COMPLETED' ? 'badge-green' : 'badge-yellow'" x-text="o.status"></span></td>
+              <td x-text="o.lines.length"></td>
+            </tr>
+          </template>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 右：选中的单 -->
+    <div class="card biz-card">
+      <template x-if="!current">
+        <p class="text-muted">还没有选中出库单。</p>
+      </template>
+      <template x-if="current">
+        <div>
+          <h3>
+            <span x-text="current.orderNo"></span>
+            <span class="badge" :class="current.status === 'COMPLETED' ? 'badge-green' : 'badge-yellow'" x-text="current.status"></span>
+            <span class="text-muted text-sm" x-text="'路径里的 {id} = ' + current.id"></span>
+          </h3>
+
+          <div class="biz-form">
+            <label>货品编码 skuCode
+              <select class="input-base" x-model="form.skuCode">
+                <template x-for="code in skuCodes" :key="code"><option :value="code" x-text="code" :selected="code === form.skuCode"></option></template>
+              </select>
+            </label>
+            <label>库位编码 locationCode
+              <select class="input-base" x-model="form.locationCode">
+                <template x-for="l in locations" :key="l.id"><option :value="l.code" x-text="l.code" :selected="l.code === form.locationCode"></option></template>
+              </select>
+            </label>
+            <label>数量 quantity<input class="input-base" type="number" min="1" x-model="form.quantity" style="width:90px"></label>
+            <button class="btn btn-ghost btn-sm" @click="addLine()" :disabled="busy">加一行</button>
+            <button class="btn btn-primary btn-sm" @click="complete()" :disabled="busy">完成出库</button>
+          </div>
+
+          <table style="margin-top:12px">
+            <thead><tr><th>行主键</th><th>skuCode（skuId）</th><th>locationCode（locationId）</th><th>数量</th><th style="width:170px">改数量 · PATCH</th></tr></thead>
+            <tbody>
+              <template x-if="current.lines.length === 0">
+                <tr><td colspan="5" class="table-empty">还没有行</td></tr>
+              </template>
+              <template x-for="l in current.lines" :key="l.id">
+                <tr>
+                  <td x-text="l.id"></td>
+                  <td x-text="l.skuCode + '（' + l.skuId + '）'"></td>
+                  <td x-text="l.locationCode + '（' + l.locationId + '）'"></td>
+                  <td x-text="l.quantity"></td>
+                  <td>
+                    <input class="input-base" type="number" min="1" x-model="editQty[l.id]" placeholder="新数量" style="width:80px">
+                    <button class="btn btn-ghost btn-sm" @click="updateLine(l.id)" :disabled="busy">改</button>
+                  </td>
+                </tr>
+              </template>
+            </tbody>
+          </table>
+        </div>
+      </template>
+    </div>
+  </div>
+
+  <div class="card biz-card">
+    <h3>库存在哪看</h3>
+    <p class="biz-hint">这一部分没有查询库存的接口。完成出库后到 Adminer 执行 <code>SELECT * FROM inventory</code>，看 A-01-01 上的数量和 version。</p>
+    <p class="biz-hint">「同时完成」要看出效果，后端先把 outbound-read-pause-ms 设成 3000 再启动：两张单都会在对方写回之前读到同一个数量。</p>
+  </div>
+
+  <div class="card biz-card">
+    <h3>接口返回（最新的在上面）</h3>
+    <div class="call-list">
+      <template x-for="(c, i) in calls" :key="i + c.at">
+        <div class="call-item" :class="c.ok ? 'call-item--ok' : 'call-item--fail'">
+          <div class="call-item__head">
+            <span class="badge" :class="c.ok ? 'badge-green' : 'badge-red'" x-text="c.status"></span>
+            <code x-text="c.action"></code>
+            <span class="text-muted text-sm" x-text="c.at"></span>
+          </div>
+          <pre x-text="c.body"></pre>
+        </div>
+      </template>
+    </div>
+  </div>
+</div>
