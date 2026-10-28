@@ -437,7 +437,7 @@ tr:hover td { background: #f8fafc; }
 .biz-form .input-base { width: 160px; }
 .biz-hint { font-size: 13px; color: var(--color-text-muted); margin-top: 8px; }
 .biz-row-active td { background: #eef4ff; }
-.biz-grid { display: grid; grid-template-columns: minmax(320px, 2fr) 3fr; gap: 16px; align-items: start; }
+.biz-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
 .biz-chips { display: flex; flex-wrap: wrap; gap: 8px; }
 
 .call-list { display: flex; flex-direction: column; gap: 8px; }
@@ -446,5 +446,5 @@ tr:hover td { background: #f8fafc; }
 .call-item--fail { border-left-color: #dc2626; }
 .call-item__head { display: flex; align-items: center; gap: 8px; font-size: 13px; }
 .call-item__head code { font-family: ui-monospace, Menlo, monospace; }
-.call-item pre { margin-top: 6px; max-height: 220px; overflow: auto; font-size: 12px; line-height: 1.5; background: #f8fafc; padding: 8px; border-radius: 4px; }
+.call-item pre { margin-top: 6px; max-height: 150px; overflow: auto; font-size: 12px; line-height: 1.5; background: #f8fafc; padding: 8px; border-radius: 4px; }
 
