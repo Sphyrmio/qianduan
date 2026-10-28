@@ -35,6 +35,19 @@ frontend-web/
 └── vite.config.ts        # Vite 配置
 ```
 
+## 和后端一起跑
+
+前端分支和后端分支同名：后端切到「第二部分」，前端也切到「第二部分」。后端的「第二部分改良版」用同一个前端分支，页面不变，同一个操作返回的结果不同。
+
+1. 后端先起来，默认在 `http://localhost:8080`。
+2. 装依赖。Node 20 用 `npx pnpm@9 install`（lockfile 是 pnpm 9 的格式）。
+3. 启动：`npx pnpm@9 dev`，打开 `http://localhost:5173`，用 `admin` / `Admin@123` 登录。
+4. 页面上的请求都发到 `/api/...`，Vite 把 `/api` 去掉后转给后端，所以 `/api/skus` 到后端就是 `/skus`。后端不在 8080 时，启动前设置地址：`VITE_PROXY_TARGET=http://localhost:8093 npx pnpm@9 dev`。
+
+| 分支 | 页面 |
+|------|------|
+| 第一部分 | 登录、用户管理、仓库管理（点「库区库位」看库位编码） |
+
 ## 开发指南
 
 ### 安装依赖

@@ -37,6 +37,32 @@ export const STATUS_LABELS: Record<string, string> = {
   DISABLED: '停用',
 }
 
+/** 库区（warehouse_zone 表的一行） */
+export interface ZoneVO {
+  id: number
+  warehouseId: number
+  code: string
+  name: string
+  type: string
+  status: string
+}
+
+/** 库位（warehouse_location 表的一行）。入库、出库的行里填的就是这里的 code */
+export interface LocationVO {
+  id: number
+  zoneId: number
+  code: string
+  name: string
+  spec: string
+  status: string
+}
+
+/** GET /warehouses/{id}/tree 的响应：仓库 → 库区 → 库位 */
+export interface WarehouseTree {
+  warehouse: WarehouseVO
+  zones: { zone: ZoneVO; locations: LocationVO[] }[]
+}
+
 /** 分页响应结构 */
 export interface PageResponse<T> {
   current: number

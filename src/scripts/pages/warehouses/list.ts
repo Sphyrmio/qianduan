@@ -3,7 +3,12 @@
  */
 
 import { warehousesApi } from '@/pages/warehouses/warehouses.api'
-import { TYPE_LABELS, STATUS_LABELS, type WarehouseVO } from '@/pages/warehouses/warehouses.model'
+import {
+  TYPE_LABELS,
+  STATUS_LABELS,
+  type WarehouseVO,
+  type WarehouseTree,
+} from '@/pages/warehouses/warehouses.model'
 import { confirm } from '@/core/ui/components/ConfirmDialog'
 
 const PAGE_SIZE = 10
@@ -17,6 +22,10 @@ export function warehouseListComponent() {
     page: 1,
     pageSize: PAGE_SIZE,
     error: '',
+
+    // 点「库区库位」后展开的那一个仓库
+    tree: null as WarehouseTree | null,
+    treeError: '',
 
     // 筛选条件
     filters: {
@@ -98,6 +107,18 @@ export function warehouseListComponent() {
       if (page >= 1 && page <= this.totalPages) {
         this.loadData(page)
       }
+    },
+
+    // 展开库区库位：GET /warehouses/{id}/tree
+    async showTree(row: WarehouseVO) {
+      this.treeError = ''
+      const res = await warehousesApi.getTree(row.id)
+      if (!res.ok) {
+        this.tree = null
+        this.treeError = res.error.message
+        return
+      }
+      this.tree = res.data
     },
 
     // 确认删除

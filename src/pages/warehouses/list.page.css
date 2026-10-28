@@ -29,3 +29,19 @@
 .warehouses-page__error {
   color: var(--color-danger);
 }
+
+.warehouses-page__tree {
+  margin-top: 1rem;
+  padding: 1rem;
+}
+
+.warehouses-page__zone {
+  margin-top: 0.75rem;
+}
+
+.warehouses-page__locations {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.25rem;
+}

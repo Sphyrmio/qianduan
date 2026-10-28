@@ -86,7 +86,7 @@ export function mount(container: HTMLElement): void {
   container.innerHTML = `
     <div x-data="loginPageComponent()" class="login-container">
       <div class="login-header">
-        <h1 class="login-title">工单管理系统</h1>
+        <h1 class="login-title">仓库管理系统</h1>
         <p class="login-sub">请登录您的账号</p>
       </div>
 

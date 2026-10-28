@@ -24,7 +24,7 @@ function renderPage(cfg: RouteConfig, _params: Record<string, string>) {
 
     // 更新页面标题
     if (cfg.meta.title) {
-      document.title = `${cfg.meta.title} - 工单管理系统`
+      document.title = `${cfg.meta.title} - 仓库管理系统`
     }
 
     // 更新侧边栏活跃项

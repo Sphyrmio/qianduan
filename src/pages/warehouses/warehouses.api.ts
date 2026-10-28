@@ -1,5 +1,5 @@
 import { apiClient, type ApiResult } from '@/core/http/apiClient'
-import type { WarehouseVO, PageResponse } from './warehouses.model'
+import type { WarehouseVO, WarehouseTree, PageResponse } from './warehouses.model'
 
 export interface WarehouseCreatePayload {
   code: string
@@ -45,6 +45,11 @@ export const warehousesApi = {
 
   getById(id: number): Promise<ApiResult<WarehouseVO>> {
     return apiClient.get<WarehouseVO>(`/warehouses/${id}`)
+  },
+
+  /** GET /warehouses/{id}/tree：一次拿到这个仓库下的全部库区和库位 */
+  getTree(id: number): Promise<ApiResult<WarehouseTree>> {
+    return apiClient.get<WarehouseTree>(`/warehouses/${id}/tree`)
   },
 
   create(data: WarehouseCreatePayload): Promise<ApiResult<WarehouseVO>> {
