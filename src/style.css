@@ -428,3 +428,23 @@ tr:hover td { background: #f8fafc; }
   to   { transform: translateY(0);    opacity: 1; }
 }
 
+/* ── 业务页面：表单行、接口返回面板 ── */
+.biz-page { display: flex; flex-direction: column; gap: 16px; }
+.biz-card { padding: 16px; }
+.biz-card h3 { font-size: 15px; font-weight: 600; margin-bottom: 12px; }
+.biz-form { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 12px; }
+.biz-form label { display: flex; flex-direction: column; gap: 4px; font-size: 13px; color: var(--color-text-muted); }
+.biz-form .input-base { width: 160px; }
+.biz-hint { font-size: 13px; color: var(--color-text-muted); margin-top: 8px; }
+.biz-row-active td { background: #eef4ff; }
+.biz-grid { display: grid; grid-template-columns: minmax(320px, 2fr) 3fr; gap: 16px; align-items: start; }
+.biz-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+
+.call-list { display: flex; flex-direction: column; gap: 8px; }
+.call-item { border: 1px solid var(--color-border); border-left-width: 4px; border-radius: 6px; padding: 8px 12px; background: #fff; }
+.call-item--ok { border-left-color: #16a34a; }
+.call-item--fail { border-left-color: #dc2626; }
+.call-item__head { display: flex; align-items: center; gap: 8px; font-size: 13px; }
+.call-item__head code { font-family: ui-monospace, Menlo, monospace; }
+.call-item pre { margin-top: 6px; max-height: 220px; overflow: auto; font-size: 12px; line-height: 1.5; background: #f8fafc; padding: 8px; border-radius: 4px; }
+

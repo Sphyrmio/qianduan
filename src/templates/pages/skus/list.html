@@ -1,0 +1,64 @@
+<div x-data="skuListComponent()" x-init="init()" class="biz-page">
+  <div class="page-header">
+    <h2 class="page-title">📦 货品</h2>
+    <button class="btn btn-ghost btn-sm" @click="loadList()">刷新</button>
+  </div>
+
+  <div class="card biz-card">
+    <h3>新建货品 · POST /skus</h3>
+    <div class="biz-form">
+      <label>货品编码 code<input class="input-base" x-model="form.code"></label>
+      <label>货品名称 name<input class="input-base" x-model="form.name"></label>
+      <label>单位 unit<input class="input-base" x-model="form.unit" style="width:80px"></label>
+      <button class="btn btn-primary btn-sm" @click="create()" :disabled="submitting">新建</button>
+    </div>
+    <p class="biz-hint">把编码改成表里已经有的 SKU-001 再点「新建」，看返回 200 还是 400，下面的表里多不多一行。</p>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th style="width:70px">主键 id</th>
+          <th>编码 code</th>
+          <th>名称 name</th>
+          <th style="width:80px">单位</th>
+          <th style="width:140px">数量合计 onHand</th>
+        </tr>
+      </thead>
+      <tbody>
+        <template x-if="rows.length === 0">
+          <tr><td colspan="5" class="table-empty">还没有货品</td></tr>
+        </template>
+        <template x-for="row in rows" :key="row.id">
+          <tr>
+            <td x-text="row.id"></td>
+            <td>
+              <span x-text="row.code"></span>
+              <span class="badge badge-red" x-show="countOf(row.code) > 1">编码重复</span>
+            </td>
+            <td x-text="row.name"></td>
+            <td x-text="row.unit"></td>
+            <td x-text="row.onHand"></td>
+          </tr>
+        </template>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card biz-card">
+    <h3>接口返回（最新的在上面）</h3>
+    <div class="call-list">
+      <template x-for="(c, i) in calls" :key="i + c.at">
+        <div class="call-item" :class="c.ok ? 'call-item--ok' : 'call-item--fail'">
+          <div class="call-item__head">
+            <span class="badge" :class="c.ok ? 'badge-green' : 'badge-red'" x-text="c.status"></span>
+            <code x-text="c.action"></code>
+            <span class="text-muted text-sm" x-text="c.at"></span>
+          </div>
+          <pre x-text="c.body"></pre>
+        </div>
+      </template>
+    </div>
+  </div>
+</div>

@@ -16,14 +16,17 @@ export interface SessionState {
 type Listener = (state: SessionState) => void
 
 /** 根据后端 role 推导前端权限列表 */
+/** 货品、入库页：管理员、仓库管理员、库管员都能用 */
+const STOCK_PERMS = ['sku:list', 'inbound:use']
+
 function permsFromRole(role: string): string[] {
   switch (role) {
     case 'ADMIN':
-      return ['dashboard:view', 'user:list', 'warehouse:list', 'warehouse:create', 'warehouse:edit', 'warehouse:delete']
+      return ['dashboard:view', 'user:list', 'warehouse:list', 'warehouse:create', 'warehouse:edit', 'warehouse:delete', ...STOCK_PERMS]
     case 'WAREHOUSE_MANAGER':
-      return ['dashboard:view', 'warehouse:list', 'warehouse:create', 'warehouse:edit', 'warehouse:delete']
+      return ['dashboard:view', 'warehouse:list', 'warehouse:create', 'warehouse:edit', 'warehouse:delete', ...STOCK_PERMS]
     case 'OPERATOR':
-      return ['dashboard:view', 'warehouse:list']
+      return ['dashboard:view', 'warehouse:list', ...STOCK_PERMS]
     case 'BUSINESS':
       return ['dashboard:view', 'warehouse:list']
     default:

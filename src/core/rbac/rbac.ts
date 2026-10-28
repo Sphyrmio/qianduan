@@ -25,6 +25,8 @@ export const Perm = {
   WAREHOUSE_CREATE: 'warehouse:create',
   WAREHOUSE_EDIT: 'warehouse:edit',
   WAREHOUSE_DELETE: 'warehouse:delete',
+  SKU_LIST: 'sku:list',
+  INBOUND: 'inbound:use',
 } as const
 
 export type PermKey = (typeof Perm)[keyof typeof Perm]

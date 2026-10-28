@@ -32,6 +32,20 @@ export const ALL_MENUS: MenuItem[] = [
     href: '#/warehouses',
     perm: Perm.WAREHOUSE_LIST,
   },
+  {
+    key: 'skus',
+    label: '货品',
+    icon: '📦',
+    href: '#/skus',
+    perm: Perm.SKU_LIST,
+  },
+  {
+    key: 'inbound',
+    label: '入库',
+    icon: '📥',
+    href: '#/inbound',
+    perm: Perm.INBOUND,
+  },
 ]
 
 /** 根据当前用户权限过滤菜单 */

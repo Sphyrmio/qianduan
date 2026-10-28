@@ -18,7 +18,8 @@ export function registerAuthHooks(opts: {
   _onLogout = opts.onLogout
 }
 
-export type ApiResult<T> = { ok: true; data: T } | { ok: false; error: AppError }
+/** status 是 HTTP 状态码，页面下方的「接口返回」面板会显示它 */
+export type ApiResult<T> = { ok: true; data: T; status?: number } | { ok: false; error: AppError }
 
 async function _fetch(input: string, init: RequestInit, retry = true): Promise<Response> {
   const controller = new AbortController()
@@ -73,7 +74,7 @@ async function request<T>(method: string, path: string, body?: unknown): Promise
     if (!res.ok) {
       return { ok: false, error: fromHttpStatus(res.status, data) }
     }
-    return { ok: true, data: data as T }
+    return { ok: true, data: data as T, status: res.status }
   } catch (err) {
     return { ok: false, error: err as AppError }
   }

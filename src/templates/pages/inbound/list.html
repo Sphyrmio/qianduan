@@ -1,0 +1,108 @@
+<div x-data="inboundPageComponent()" x-init="init()" class="biz-page">
+  <div class="page-header">
+    <h2 class="page-title">📥 入库</h2>
+    <div class="page-actions">
+      <button class="btn btn-primary btn-sm" @click="createOrder()" :disabled="busy">新建入库单</button>
+      <button class="btn btn-ghost btn-sm" @click="clearHistory()">清空记录</button>
+    </div>
+  </div>
+
+  <div class="biz-grid">
+    <!-- 左：这个浏览器建过的单 -->
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th style="width:60px">主键</th><th>单号</th><th style="width:110px">状态</th><th style="width:50px">行数</th></tr>
+        </thead>
+        <tbody>
+          <template x-if="orders.length === 0">
+            <tr><td colspan="4" class="table-empty">点右上角「新建入库单」</td></tr>
+          </template>
+          <template x-for="o in orders" :key="o.id">
+            <tr :class="o.id === currentId ? 'biz-row-active' : ''" @click="currentId = o.id" style="cursor:pointer">
+              <td x-text="o.id"></td>
+              <td x-text="o.orderNo"></td>
+              <td><span class="badge" :class="o.status === 'COMPLETED' ? 'badge-green' : 'badge-yellow'" x-text="o.status"></span></td>
+              <td x-text="o.lines.length"></td>
+            </tr>
+          </template>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 右：选中的单 -->
+    <div class="card biz-card">
+      <template x-if="!current">
+        <p class="text-muted">还没有选中入库单。</p>
+      </template>
+      <template x-if="current">
+        <div>
+          <h3>
+            <span x-text="current.orderNo"></span>
+            <span class="badge" :class="current.status === 'COMPLETED' ? 'badge-green' : 'badge-yellow'" x-text="current.status"></span>
+            <span class="text-muted text-sm" x-text="'路径里的 {id} = ' + current.id"></span>
+          </h3>
+
+          <div class="biz-form">
+            <label>货品编码 skuCode
+              <select class="input-base" x-model="form.skuCode">
+                <template x-for="code in skuCodes" :key="code"><option :value="code" x-text="code" :selected="code === form.skuCode"></option></template>
+              </select>
+            </label>
+            <label>库位编码 locationCode
+              <select class="input-base" x-model="form.locationCode">
+                <template x-for="l in locations" :key="l.id"><option :value="l.code" x-text="l.code" :selected="l.code === form.locationCode"></option></template>
+              </select>
+            </label>
+            <label>数量 quantity<input class="input-base" type="number" min="1" x-model="form.quantity" style="width:90px"></label>
+            <button class="btn btn-ghost btn-sm" @click="addLine()" :disabled="busy">加一行</button>
+            <button class="btn btn-primary btn-sm" @click="complete()" :disabled="busy">完成入库</button>
+          </div>
+
+          <table style="margin-top:12px">
+            <thead><tr><th>行主键</th><th>skuCode（skuId）</th><th>locationCode（locationId）</th><th>数量</th></tr></thead>
+            <tbody>
+              <template x-if="current.lines.length === 0">
+                <tr><td colspan="4" class="table-empty">还没有行</td></tr>
+              </template>
+              <template x-for="l in current.lines" :key="l.id">
+                <tr>
+                  <td x-text="l.id"></td>
+                  <td x-text="l.skuCode + '（' + l.skuId + '）'"></td>
+                  <td x-text="l.locationCode + '（' + l.locationId + '）'"></td>
+                  <td x-text="l.quantity"></td>
+                </tr>
+              </template>
+            </tbody>
+          </table>
+        </div>
+      </template>
+    </div>
+  </div>
+
+  <div class="card biz-card">
+    <h3>货品数量合计 sku.on_hand（完成入库后自动刷新）</h3>
+    <div class="biz-chips">
+      <template x-for="s in skus" :key="s.id">
+        <span class="badge badge-blue" x-text="s.code + '（主键 ' + s.id + '）：' + s.onHand"></span>
+      </template>
+    </div>
+    <p class="biz-hint">按库位记的数量在 inventory 表里，这一部分没有查询它的接口，到 Adminer 里看。</p>
+  </div>
+
+  <div class="card biz-card">
+    <h3>接口返回（最新的在上面）</h3>
+    <div class="call-list">
+      <template x-for="(c, i) in calls" :key="i + c.at">
+        <div class="call-item" :class="c.ok ? 'call-item--ok' : 'call-item--fail'">
+          <div class="call-item__head">
+            <span class="badge" :class="c.ok ? 'badge-green' : 'badge-red'" x-text="c.status"></span>
+            <code x-text="c.action"></code>
+            <span class="text-muted text-sm" x-text="c.at"></span>
+          </div>
+          <pre x-text="c.body"></pre>
+        </div>
+      </template>
+    </div>
+  </div>
+</div>
