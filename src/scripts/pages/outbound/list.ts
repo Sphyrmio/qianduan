@@ -63,6 +63,24 @@ export function outboundPageComponent() {
       this.busy = false
     },
 
+    /**
+     * 模拟网络慢时同一次「加一行」被发了两遍：两个请求带同一个 Idempotency-Key。
+     * 后端 submit-once 打开时只加一行，第二次原样返回；关掉时加两行。
+     */
+    async addLineTwice() {
+      if (!this.current) return
+      this.busy = true
+      const id = this.current.id
+      const key = crypto.randomUUID()
+      const payload = { ...this.form, quantity: Number(this.form.quantity) }
+      for (const n of [1, 2]) {
+        const res = await outboundApi.addLine(id, payload, key)
+        this.calls = recordCall(this.calls, `POST /outbound-orders/${id}/lines（第 ${n} 次，Idempotency-Key ${key.slice(0, 8)}…）`, res)
+        if (res.ok) this.keep(res.data)
+      }
+      this.busy = false
+    },
+
     async complete() {
       if (!this.current) return
       this.busy = true

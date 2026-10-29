@@ -14,8 +14,10 @@ export const outboundApi = {
   },
 
   /** POST /outbound-orders/{id}/lines：货品编码、库位编码、数量 */
-  addLine(id: number, data: OutboundLinePayload): Promise<ApiResult<OutboundOrderVO>> {
-    return apiClient.post<OutboundOrderVO>(`/outbound-orders/${id}/lines`, data)
+  addLine(id: number, data: OutboundLinePayload, idempotencyKey?: string): Promise<ApiResult<OutboundOrderVO>> {
+    // 带了 Idempotency-Key 时，后端用它判断是不是同一次操作重发
+    const headers = idempotencyKey ? { 'Idempotency-Key': idempotencyKey } : undefined
+    return apiClient.post<OutboundOrderVO>(`/outbound-orders/${id}/lines`, data, headers)
   },
 
   /**

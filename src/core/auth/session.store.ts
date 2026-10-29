@@ -17,7 +17,7 @@ type Listener = (state: SessionState) => void
 
 /** 根据后端 role 推导前端权限列表 */
 /** 货品、入库、出库页：管理员、仓库管理员、库管员都能用 */
-const STOCK_PERMS = ['sku:list', 'inbound:use', 'outbound:use']
+const STOCK_PERMS = ['sku:list', 'inbound:use', 'outbound:use', 'inventory:view']
 
 function permsFromRole(role: string): string[] {
   switch (role) {

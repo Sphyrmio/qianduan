@@ -28,6 +28,7 @@ export const Perm = {
   SKU_LIST: 'sku:list',
   INBOUND: 'inbound:use',
   OUTBOUND: 'outbound:use',
+  INVENTORY: 'inventory:view',
 } as const
 
 export type PermKey = (typeof Perm)[keyof typeof Perm]

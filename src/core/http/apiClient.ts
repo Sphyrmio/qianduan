@@ -64,11 +64,12 @@ async function parseBody(res: Response): Promise<unknown> {
   return res.text()
 }
 
-async function request<T>(method: string, path: string, body?: unknown): Promise<ApiResult<T>> {
+/** headers：额外的请求头，例如防重复提交用的 Idempotency-Key */
+async function request<T>(method: string, path: string, body?: unknown, headers?: Record<string, string>): Promise<ApiResult<T>> {
   try {
     const res = await _fetch(
       path,
-      { method, body: body !== undefined ? JSON.stringify(body) : undefined },
+      { method, body: body !== undefined ? JSON.stringify(body) : undefined, headers },
     )
     const data = await parseBody(res)
     if (!res.ok) {
@@ -82,7 +83,7 @@ async function request<T>(method: string, path: string, body?: unknown): Promise
 
 export const apiClient = {
   get: <T>(path: string) => request<T>('GET', path),
-  post: <T>(path: string, body?: unknown) => request<T>('POST', path, body),
+  post: <T>(path: string, body?: unknown, headers?: Record<string, string>) => request<T>('POST', path, body, headers),
   put: <T>(path: string, body?: unknown) => request<T>('PUT', path, body),
   patch: <T>(path: string, body?: unknown) => request<T>('PATCH', path, body),
   delete: <T>(path: string) => request<T>('DELETE', path),

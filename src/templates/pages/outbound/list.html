@@ -59,6 +59,7 @@
             </label>
             <label>数量 quantity<input class="input-base" type="number" min="1" x-model="form.quantity" style="width:90px"></label>
             <button class="btn btn-ghost btn-sm" @click="addLine()" :disabled="busy">加一行</button>
+            <button class="btn btn-ghost btn-sm" @click="addLineTwice()" :disabled="busy" title="同一个 Idempotency-Key 连发两次">加一行 ×2</button>
             <button class="btn btn-primary btn-sm" @click="complete()" :disabled="busy">完成出库</button>
           </div>
 

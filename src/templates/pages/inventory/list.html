@@ -1,0 +1,60 @@
+<div x-data="inventoryPageComponent()" x-init="init()" class="biz-page">
+  <div class="page-header">
+    <h2 class="page-title">📊 库存</h2>
+    <button class="btn btn-ghost btn-sm" @click="loadRows()">刷新库存表</button>
+  </div>
+
+  <div class="card biz-card">
+    <h3>查一个格子 · GET /inventories（先查 Redis 缓存）</h3>
+    <div class="biz-form">
+      <label>货品
+        <select class="input-base" x-model.number="form.skuId">
+          <template x-for="s in skus" :key="s.id"><option :value="s.id" x-text="s.code + ' ' + s.name" :selected="s.id === form.skuId"></option></template>
+        </select>
+      </label>
+      <label>库位
+        <select class="input-base" x-model.number="form.locationId">
+          <template x-for="l in locations" :key="l.id"><option :value="l.id" x-text="l.code" :selected="l.id === form.locationId"></option></template>
+        </select>
+      </label>
+      <button class="btn btn-primary btn-sm" @click="query()">查询</button>
+      <span class="inventory-page__cached" x-show="cached !== null">
+        查到的数量：<b x-text="cached"></b>
+      </span>
+    </div>
+    <p class="biz-hint">第一次查从数据库读，同时写进 Redis 的 <code>inv:货品主键:库位主键</code>；之后再查直接拿 Redis 里的数。和右边库存表比一比是不是同一个数。</p>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>货品</th><th>库位</th><th>数量 quantity（数据库）</th><th>version</th></tr></thead>
+      <tbody>
+        <template x-if="rows.length === 0"><tr><td colspan="4" class="table-empty">还没有库存</td></tr></template>
+        <template x-for="r in rows" :key="r.id">
+          <tr :class="r.skuId === form.skuId && r.locationId === form.locationId ? 'biz-row-active' : ''">
+            <td x-text="skuCode(r.skuId)"></td>
+            <td x-text="locationCode(r.locationId)"></td>
+            <td x-text="r.quantity"></td>
+            <td x-text="r.version"></td>
+          </tr>
+        </template>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card biz-card">
+    <h3>接口返回（最新的在上面）</h3>
+    <div class="call-list">
+      <template x-for="(c, i) in calls" :key="i + c.at">
+        <div class="call-item" :class="c.ok ? 'call-item--ok' : 'call-item--fail'">
+          <div class="call-item__head">
+            <span class="badge" :class="c.ok ? 'badge-green' : 'badge-red'" x-text="c.status"></span>
+            <code x-text="c.action"></code>
+            <span class="text-muted text-sm" x-text="c.at"></span>
+          </div>
+          <pre x-text="c.body"></pre>
+        </div>
+      </template>
+    </div>
+  </div>
+</div>

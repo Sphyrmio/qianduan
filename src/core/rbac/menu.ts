@@ -53,6 +53,13 @@ export const ALL_MENUS: MenuItem[] = [
     href: '#/outbound',
     perm: Perm.OUTBOUND,
   },
+  {
+    key: 'inventory',
+    label: '库存',
+    icon: '📊',
+    href: '#/inventory',
+    perm: Perm.INVENTORY,
+  },
 ]
 
 /** 根据当前用户权限过滤菜单 */
