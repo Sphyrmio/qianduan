@@ -75,6 +75,28 @@
               </template>
             </tbody>
           </table>
+
+          <h3 style="margin-top:16px">附件 · 收货单、照片</h3>
+          <div class="biz-form">
+            <label>选择文件<input class="input-base" type="file" style="width:260px" @change="file = $event.target.files[0] ?? null"></label>
+            <button class="btn btn-ghost btn-sm" @click="upload()" :disabled="busy || !file">上传附件</button>
+          </div>
+          <table style="margin-top:8px">
+            <thead><tr><th style="width:70px">附件主键</th><th>原文件名</th><th>存在哪 filePath</th><th style="width:80px"></th></tr></thead>
+            <tbody>
+              <template x-if="currentAttachments.length === 0">
+                <tr><td colspan="4" class="table-empty">这张单还没有附件</td></tr>
+              </template>
+              <template x-for="a in currentAttachments" :key="a.id">
+                <tr>
+                  <td x-text="a.id"></td>
+                  <td x-text="a.fileName"></td>
+                  <td><code x-text="a.filePath"></code></td>
+                  <td><button class="btn btn-ghost btn-sm" @click="download(a)">下载</button></td>
+                </tr>
+              </template>
+            </tbody>
+          </table>
         </div>
       </template>
     </div>

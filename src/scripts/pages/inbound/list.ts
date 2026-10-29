@@ -12,8 +12,11 @@ import { warehousesApi } from '@/pages/warehouses/warehouses.api'
 import type { LocationVO } from '@/pages/warehouses/warehouses.model'
 import { recordCall, type CallResult } from '@/core/ui/callResult'
 import { loadOrders, upsertOrder, clearOrders } from '@/core/ui/orderHistory'
+import { attachmentApi, type AttachmentVO } from '@/pages/inbound/attachment.api'
+import { toCallResult } from '@/core/ui/callResult'
 
 const STORE_KEY = 'wms.inboundOrders'
+const ATTACH_KEY = 'wms.inboundAttachments'
 
 export function inboundPageComponent() {
   return {
@@ -23,6 +26,9 @@ export function inboundPageComponent() {
     locations: [] as LocationVO[],
     form: { skuCode: 'SKU-003', locationCode: 'A-01-01', quantity: 10 },
     calls: [] as CallResult[],
+    /** 这个浏览器上传过的附件，按入库单主键分组。后端没有列出附件的接口 */
+    attachments: JSON.parse(localStorage.getItem(ATTACH_KEY) ?? '{}') as Record<number, AttachmentVO[]>,
+    file: null as File | null,
     busy: false,
 
     get current(): InboundOrderVO | null {
@@ -64,6 +70,42 @@ export function inboundPageComponent() {
       this.busy = false
     },
 
+    get currentAttachments(): AttachmentVO[] {
+      return this.current ? this.attachments[this.current.id] ?? [] : []
+    },
+
+    /** 上传附件：POST /inbound-orders/{id}/attachments，表单字段 file */
+    async upload() {
+      if (!this.current || !this.file) return
+      this.busy = true
+      const id = this.current.id
+      const res = await attachmentApi.upload(id, this.file)
+      this.calls = recordCall(this.calls, `POST /inbound-orders/${id}/attachments（${this.file.name}）`, res)
+      if (res.ok) {
+        this.attachments = { ...this.attachments, [id]: [...(this.attachments[id] ?? []), res.data] }
+        localStorage.setItem(ATTACH_KEY, JSON.stringify(this.attachments))
+      }
+      this.busy = false
+    },
+
+    /** 下载附件：GET /inbound-orders/{id}/attachments/{attachmentId}。文本内容直接显示在「接口返回」里 */
+    async download(a: AttachmentVO) {
+      const res = await attachmentApi.download(a.orderId, a.id)
+      const action = `GET /inbound-orders/${a.orderId}/attachments/${a.id}（${a.fileName}）`
+      if (res.ok) {
+        const c = toCallResult(action, { ok: true, data: null, status: res.status })
+        c.body = res.data.text
+        this.calls = [c, ...this.calls].slice(0, 8)
+        const link = document.createElement('a')
+        link.href = URL.createObjectURL(res.data.blob)
+        link.download = a.fileName
+        link.click()
+        URL.revokeObjectURL(link.href)
+      } else {
+        this.calls = recordCall(this.calls, action, res)
+      }
+    },
+
     async complete() {
       if (!this.current) return
       this.busy = true
@@ -76,6 +118,8 @@ export function inboundPageComponent() {
 
     clearHistory() {
       clearOrders(STORE_KEY)
+      localStorage.removeItem(ATTACH_KEY)
+      this.attachments = {}
       this.orders = []
       this.currentId = null
     },
