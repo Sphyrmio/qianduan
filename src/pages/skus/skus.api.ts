@@ -16,7 +16,7 @@ export const skusApi = {
   /**
    * POST /skus：新建货品
    * 请求体 { code, name, unit } → SkuController.create → SkuService.create → sku 表插入一行。
-   * 成功返回带 id 的货品；编码重复时改良版返回 400，message 以 SKU_CODE_DUPLICATED 开头。
+   * 成功返回带 id 的货品；编码已经存在时返回 400，message 以 SKU_CODE_DUPLICATED 开头。
    */
   create(data: SkuCreatePayload): Promise<ApiResult<SkuVO>> {
     return apiClient.post<SkuVO>('/skus', data)

@@ -81,13 +81,8 @@
   </div>
 
   <div class="card biz-card">
-    <h3>货品数量合计 sku.on_hand（完成入库后自动刷新）</h3>
-    <div class="biz-chips">
-      <template x-for="s in skus" :key="s.id">
-        <span class="badge badge-blue" x-text="s.code + '（主键 ' + s.id + '）：' + s.onHand"></span>
-      </template>
-    </div>
-    <p class="biz-hint">按库位记的数量在 inventory 表里，这一部分没有查询它的接口，到 Adminer 里看。</p>
+    <h3>入库的数量记在哪</h3>
+    <p class="biz-hint">点「完成入库」后，每一行的数量按「货品 + 库位」记进 inventory 表：一个格子上的一种货一行，再入同一个格子就在那一行上加。这一部分没有查它的页面，到数据库里执行 <code>SELECT * FROM inventory</code> 看。</p>
   </div>
 
   <div class="card biz-card">

@@ -19,8 +19,8 @@ export const inboundApi = {
 
   /**
    * POST /inbound-orders/{id}/complete：没有请求体
-   * 原分支把数量加在 sku.on_hand 上；改良版按「货品 + 库位」写进 inventory 表。
-   * 两边都返回 200 和 COMPLETED，区别要到货品页或 Adminer 里看。
+   * 后端按「货品 + 库位」把每一行的数量写进 inventory 表，单据改成 COMPLETED。
+   * 返回里看不到 inventory，要到数据库里看。
    */
   complete(id: number): Promise<ApiResult<InboundOrderVO>> {
     return apiClient.post<InboundOrderVO>(`/inbound-orders/${id}/complete`)
