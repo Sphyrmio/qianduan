@@ -1,9 +1,8 @@
 /**
  * 入库页 Alpine 组件
  *
- * 左边是这个浏览器建过的入库单，右边是选中的那一张：加行、完成。
- * 下面是货品的数量合计（sku.on_hand）和「接口返回」。
- * 课上的操作：建单 → 加一行 SKU-003 / A-01-01 / 10 → 完成，再看 on_hand 变没变。
+ * 上面是这个浏览器建过的入库单，下面是选中的那一张：加行、完成。最下面是「接口返回」。
+ * 课上的操作：建单 → 加一行 SKU-003 / A-01-01 / 10 → 完成，再到数据库看 inventory 多了哪一行。
  */
 import { inboundApi } from '@/pages/inbound/inbound.api'
 import type { InboundOrderVO } from '@/pages/inbound/inbound.model'
@@ -30,7 +29,7 @@ export function inboundPageComponent() {
       return this.orders.find((o) => o.id === this.currentId) ?? null
     },
 
-    /** 下拉框里的货品编码去重：原分支允许同一个编码建两行 */
+    /** 下拉框里的货品编码 */
     get skuCodes(): string[] {
       return [...new Set(this.skus.map((s) => s.code))]
     },
@@ -73,8 +72,6 @@ export function inboundPageComponent() {
       this.calls = recordCall(this.calls, `POST /inbound-orders/${id}/complete`, res)
       if (res.ok) this.keep(res.data)
       this.busy = false
-      // 完成后重新拉货品，看 on_hand 有没有跟着变
-      await this.loadOptions()
     },
 
     clearHistory() {

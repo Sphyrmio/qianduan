@@ -11,7 +11,6 @@ export interface SkuVO {
   name: string // 货品名称
   unit: string // 计量单位
   createdAt: string
-  onHand: number // sku.on_hand：这个货品的数量合计，不分库位
 }
 
 /** POST /skus 的请求体，三个字段都必填 */

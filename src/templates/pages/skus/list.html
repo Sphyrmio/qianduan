@@ -12,7 +12,7 @@
       <label>单位 unit<input class="input-base" x-model="form.unit" style="width:80px"></label>
       <button class="btn btn-primary btn-sm" @click="create()" :disabled="submitting">新建</button>
     </div>
-    <p class="biz-hint">把编码改成表里已经有的 SKU-001 再点「新建」，看返回 200 还是 400，下面的表里多不多一行。</p>
+    <p class="biz-hint">编码已经登记过（比如 SKU-001）再点「新建」，返回 400 SKU_CODE_DUPLICATED，表里不会多一行。</p>
   </div>
 
   <div class="table-wrap">
@@ -23,23 +23,18 @@
           <th>编码 code</th>
           <th>名称 name</th>
           <th style="width:80px">单位</th>
-          <th style="width:140px">数量合计 onHand</th>
         </tr>
       </thead>
       <tbody>
         <template x-if="rows.length === 0">
-          <tr><td colspan="5" class="table-empty">还没有货品</td></tr>
+          <tr><td colspan="4" class="table-empty">还没有货品</td></tr>
         </template>
         <template x-for="row in rows" :key="row.id">
           <tr>
             <td x-text="row.id"></td>
-            <td>
-              <span x-text="row.code"></span>
-              <span class="badge badge-red" x-show="countOf(row.code) > 1">编码重复</span>
-            </td>
+            <td x-text="row.code"></td>
             <td x-text="row.name"></td>
             <td x-text="row.unit"></td>
-            <td x-text="row.onHand"></td>
           </tr>
         </template>
       </tbody>

@@ -2,7 +2,7 @@
  * 货品页 Alpine 组件
  *
  * 上面一张表单新建货品，下面一张表列出全部货品，最下面是「接口返回」。
- * 课上的操作：先建 SKU-003，再建一次已经有的 SKU-001，看返回什么、表里多不多一行。
+ * 课上的操作：先建 SKU-003，再建一次已经有的 SKU-001，第二次返回 400，表里不多一行。
  */
 import { skusApi } from '@/pages/skus/skus.api'
 import type { SkuVO } from '@/pages/skus/skus.model'
@@ -29,11 +29,6 @@ export function skuListComponent() {
       this.submitting = false
       // 不管成功失败都重新拉一次列表，表里有没有多出一行一眼就能看到
       await this.loadList(false)
-    },
-
-    /** 同一个编码出现了几行；大于 1 就是重复 */
-    countOf(code: string): number {
-      return this.rows.filter((r) => r.code === code).length
     },
 
     init() {
